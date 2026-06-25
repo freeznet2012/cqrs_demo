@@ -1,0 +1,40 @@
+@CqrsLearning.MediatR.Api_HostAddress = http://localhost:5228
+
+GET {{CqrsLearning.MediatR.Api_HostAddress}}/health
+Accept: application/json
+
+###
+
+GET {{CqrsLearning.MediatR.Api_HostAddress}}/products
+Accept: application/json
+
+###
+
+GET {{CqrsLearning.MediatR.Api_HostAddress}}/products/00000000-0000-0000-0000-000000000000
+Accept: application/json
+
+###
+
+POST {{CqrsLearning.MediatR.Api_HostAddress}}/products
+Content-Type: application/json
+
+{
+  "name": "Mechanical Keyboard",
+  "price": 129.99
+}
+
+###
+
+PUT {{CqrsLearning.MediatR.Api_HostAddress}}/products/00000000-0000-0000-0000-000000000000/price
+Content-Type: application/json
+
+{
+  "price": 149.99
+}
+
+###
+
+DELETE {{CqrsLearning.MediatR.Api_HostAddress}}/products/00000000-0000-0000-0000-000000000000
+Accept: application/json
+
+###
