@@ -1262,3 +1262,54 @@ Planned discussion:
 Recommended next coding step after comparison:
 
 - Add a MediatR pipeline behavior for validation/logging to show where MediatR becomes more useful than direct handler calls.
+
+## Step 18 Status
+
+Step 18 has been completed.
+
+Changed:
+
+- Added `CqrsLearning.MediatR.Api/Application/Behaviors/RequestLoggingBehavior.cs`.
+- Registered the behavior in `CqrsLearning.MediatR.Api/Program.cs` with `configuration.AddOpenBehavior(typeof(RequestLoggingBehavior<,>));`.
+- Updated `README.md` with a MediatR pipeline behavior section.
+
+Important teaching notes:
+
+- This is the first MediatR pipeline behavior.
+- The request flow is now:
+
+```text
+Controller -> IMediator -> RequestLoggingBehavior -> Handler
+```
+
+- The behavior runs around every MediatR command/query.
+- The behavior logs the request type before the handler runs.
+- The behavior logs elapsed time after the handler completes.
+- This does not change API behavior; it adds cross-cutting behavior around handlers.
+- This is one of MediatR's real advantages over direct handler injection.
+
+Verification:
+
+- `dotnet build CqrsLearning.sln` succeeds.
+- `dotnet test CqrsLearning.sln --no-restore` succeeds with `DOTNET_ROLL_FORWARD=LatestMajor`.
+- Result:
+  - Direct API tests: 2 passed, 0 failed.
+  - MediatR API tests: 2 passed, 0 failed.
+  - Total: 4 passed, 0 failed.
+
+Next proposed step:
+
+Step 19: Add validation pipeline behavior.
+
+Planned actions:
+
+1. Introduce a small validation abstraction for MediatR requests.
+2. Move command validation out of individual handlers where appropriate.
+3. Add a MediatR validation behavior that runs before handlers.
+4. Keep controller HTTP mapping explicit.
+
+Teaching focus:
+
+- Pipeline behaviors can centralize cross-cutting concerns.
+- Validation can run before the handler executes.
+- This helps handlers focus on business behavior and persistence.

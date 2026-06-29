@@ -126,6 +126,28 @@ That tells MediatR to scan the API assembly for `IRequestHandler<TRequest, TResp
 
 MediatR is not CQRS. MediatR is a dispatcher that can be used to implement CQRS.
 
+
+## MediatR Pipeline Behavior
+
+The MediatR API includes a request logging pipeline behavior:
+
+```text
+Controller -> IMediator -> RequestLoggingBehavior -> Handler
+```
+
+The behavior logs before and after every MediatR request and measures elapsed time. This is where MediatR starts to show value beyond dispatching, because cross-cutting work can be applied around all commands and queries in one place.
+
+The behavior is registered in `CqrsLearning.MediatR.Api/Program.cs`:
+
+```csharp
+configuration.AddOpenBehavior(typeof(RequestLoggingBehavior<,>));
+```
+
+The behavior itself lives at:
+
+```text
+CqrsLearning.MediatR.Api/Application/Behaviors/RequestLoggingBehavior.cs
+```
 ## Commands And Queries
 
 A query describes a read operation:
@@ -246,4 +268,5 @@ For detailed step-by-step learning notes, see:
 ```text
 CQRS_LEARNING_CONTEXT.md
 ```
+
 

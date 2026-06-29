@@ -1,3 +1,4 @@
+using CqrsLearning.MediatR.Api.Application.Behaviors;
 using CqrsLearning.MediatR.Api.Data;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddMediatR(configuration =>
 {
     configuration.RegisterServicesFromAssembly(typeof(Program).Assembly);
+    configuration.AddOpenBehavior(typeof(RequestLoggingBehavior<,>));
 });
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -46,3 +48,4 @@ app.MapControllers();
 app.Run();
 
 public partial class Program;
+
